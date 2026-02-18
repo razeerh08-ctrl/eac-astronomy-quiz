@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>EAC Astronomy Quiz – Transparan + Hologram</title>
+<title>EAC Astronomy Quiz – Fullscreen Transparan Besar</title>
 <style>
 body{
   margin:0;
@@ -42,15 +42,15 @@ body{
   50%{opacity:1;}
 }
 
-/* Card Dashboard Transparan */
+/* Card Dashboard FULLSCREEN BESAR + Transparan */
 .card{
   position:relative;
-  background: rgba(255,255,255,0.15);
-  padding:60px 40px;
+  background: rgba(255,255,255,0.08); /* lebih transparan */
+  padding:40px;
   border-radius:25px;
-  backdrop-filter: blur(18px);
-  width:95%;
-  height:90%;
+  backdrop-filter: blur(12px);
+  width:98%; 
+  height:95%; 
   text-align:center;
   z-index:1;
   display:flex;
@@ -144,7 +144,7 @@ button:hover{
 
 <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
 <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
-<audio id="ambientSound" src="https://www.soundjay.com/nature/sounds/space-ambient-1.mp3" loop autoplay></audio>
+<audio id="ambientSound src="https://www.soundjay.com/nature/sounds/space-ambient-1.mp3" loop autoplay></audio>
 </div>
 
 <script>
@@ -246,4 +246,4 @@ if(window.location.search.includes("admin=true")){
 showLeaderboard();
 </script>
 </body>
-  </html>
+</html>
