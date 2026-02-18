@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>EAC Astronomy Quiz – Ultra Cinematic Space</title>
+<title>EAC Astronomy Quiz – Ultra Fullscreen</title>
 <style>
 body{
   margin:0;
@@ -14,7 +14,6 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
-  transition: background 20s linear infinite;
 }
 
 /* Space Animasi */
@@ -42,48 +41,54 @@ body{
   50%{opacity:1;}
 }
 
-/* Card Dashboard */
+/* Card Dashboard Fullscreen */
 .card{
   position:relative;
-  background: rgba(255,255,255,0.12);
-  padding:50px 30px;
-  border-radius:30px;
+  background: rgba(255,255,255,0.15);
+  padding:60px 40px;
+  border-radius:25px;
   backdrop-filter: blur(18px);
   width:95%;
-  max-width:500px;
+  height:90%;
+  max-width:none;
   text-align:center;
   z-index:1;
-  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  box-shadow: 0 0 60px rgba(0,0,0,0.6);
 }
 
-/* Input & Dropdown */
+/* Input & Dropdown Full Width */
 input, select{
   width:90%;
-  padding:18px;
-  margin:12px 0;
-  border-radius:14px;
+  padding:22px;
+  margin:16px 0;
+  border-radius:18px;
   border:none;
-  font-size:20px;
+  font-size:22px;
+  text-align:center;
 }
 
-/* Tombol Glow */
+/* Tombol Mulai Besar */
 button{
-  width:70%;
-  padding:18px;
+  width:50%;
+  padding:22px;
   border:none;
-  border-radius:16px;
+  border-radius:18px;
   cursor:pointer;
   background:#00bfff;
-  font-size:20px;
+  font-size:24px;
   font-weight:bold;
   color:white;
   transition:0.3s;
-  box-shadow:0 0 15px #00bfff;
+  box-shadow:0 0 20px #00bfff;
 }
 
 button:hover{
   background:#009acd;
-  box-shadow:0 0 30px #00ffff,0 0 40px #00bfff;
+  box-shadow:0 0 40px #00ffff,0 0 50px #00bfff;
 }
 
 #quiz button{
@@ -93,7 +98,7 @@ button:hover{
 
 #leaderboard{
   margin-top:15px;
-  font-size:14px;
+  font-size:16px;
 }
 </style>
 </head>
@@ -102,7 +107,7 @@ button:hover{
 <div class="stars" id="stars"></div>
 
 <div class="card">
-<h2>🌌 EAC Astronomy Quiz</h2>
+<h2 style="font-size:2.5em;">🌌 EAC Astronomy Quiz</h2>
 
 <div id="start">
 <input id="username" placeholder="Masukkan Nama"><br>
@@ -124,17 +129,17 @@ button:hover{
 </div>
 
 <script>
-// === Animasi Bintang Cinematic ===
+// === Animasi Bintang Fullscreen Cinematic ===
 const starsContainer=document.getElementById("stars");
-for(let i=0;i<180;i++){
+for(let i=0;i<220;i++){
   const star=document.createElement("div");
   star.classList.add("star");
-  const size=Math.random()*3+1;
+  const size=Math.random()*4+1;
   star.style.width=size+"px";
   star.style.height=size+"px";
   star.style.left=Math.random()*100+"%";
   star.style.top=Math.random()*100+"%";
-  star.style.opacity=Math.random()*0.8+0.2;
+  star.style.opacity=Math.random()*0.9+0.1;
   star.style.animationName=Math.random()>0.7?"twinkle":"moveStar";
   star.style.animationDuration=Math.random()>0.7?(Math.random()*2+1)+"s":(Math.random()*40+20)+"s";
   star.style.transform=`scale(${Math.random()})`;
@@ -179,7 +184,7 @@ function showQuestion(){
   if(current>=questions.length){endQuiz();return;}
   let q=questions[current];
   let quizDiv=document.getElementById("quiz");
-  quizDiv.innerHTML="<p>"+(current+1)+". "+q.q+"</p>";
+  quizDiv.innerHTML="<p style='font-size:1.3em;'>"+(current+1)+". "+q.q+"</p>";
   shuffle(q.a).forEach(choice=>{
     let btn=document.createElement("button");
     btn.innerText=choice;
