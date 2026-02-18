@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>EAC Astronomy Quiz – Ultra Fullscreen</title>
+<title>EAC Astronomy Quiz – Fullscreen Hologram</title>
 <style>
 body{
   margin:0;
@@ -22,6 +22,7 @@ body{
   width:100%;
   height:100%;
   z-index:0;
+  pointer-events:none;
 }
 
 .star{
@@ -41,7 +42,7 @@ body{
   50%{opacity:1;}
 }
 
-/* Card Dashboard Fullscreen */
+/* Card Dashboard Fullscreen Transparan */
 .card{
   position:relative;
   background: rgba(255,255,255,0.15);
@@ -91,9 +92,28 @@ button:hover{
   box-shadow:0 0 40px #00ffff,0 0 50px #00bfff;
 }
 
+/* Tombol Jawaban Hologram */
 #quiz button{
   width:auto;
   margin:5px;
+  background:#00bfff;
+  color:white;
+  font-weight:bold;
+  border:none;
+  border-radius:14px;
+  padding:14px 24px;
+  cursor:pointer;
+  transition: 0.3s, box-shadow 0.2s;
+  box-shadow:0 0 15px #00bfff;
+}
+
+#quiz button:hover{
+  box-shadow: 0 0 25px #00ffff, 0 0 40px #00bfff;
+}
+
+#quiz button:active{
+  box-shadow: 0 0 50px #00ffff, 0 0 60px #00bfff;
+  transform: scale(0.95);
 }
 
 #leaderboard{
@@ -129,7 +149,7 @@ button:hover{
 </div>
 
 <script>
-// === Animasi Bintang Fullscreen Cinematic ===
+// === Animasi Bintang Cinematic ===
 const starsContainer=document.getElementById("stars");
 for(let i=0;i<220;i++){
   const star=document.createElement("div");
