@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EAC Astronomy GOD MODE</title>
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(135deg,#000428,#004e92);
+  color:white;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.stars{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:transparent;
+  box-shadow:
+    50px 80px white, 200px 150px white, 400px 50px white,
+    600px 200px white, 800px 120px white, 1000px 300px white,
+    300px 400px white, 700px 500px white, 900px 450px white;
+  animation: move 20s linear infinite;
+}
+@keyframes move{
+  from{transform:translateY(0);}
+  to{transform:translateY(-1000px);}
+}
+.card{
+  position:relative;
+  background:rgba(255,255,255,0.1);
+  padding:25px;
+  border-radius:15px;
+  backdrop-filter:blur(10px);
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  z-index:1;
+}
+button{
+  margin:5px;
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+button:hover{opacity:0.8;}
+#leaderboard{margin-top:10px;font-size:14px;}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="card">
+<h2>🌌 EAC Astronomy GOD MODE</h2>
+
+<div id="start">
+<input id="username" placeholder="Masukkan Nama"><br><br>
+<select id="difficulty">
+  <option value="easy">Easy</option>
+  <option value="medium">Medium</option>
+  <option value="hard">Hard</option>
+</select><br><br>
+<button onclick="startQuiz()">Mulai</button>
+</div>
+
+<div id="quiz" style="display:none;"></div>
+<h3 id="score"></h3>
+<div id="leaderboard"></div>
+</div>
+
+<audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
+<audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+<script>
+let allQuestions = [
+{q:"Planet terbesar?",a:["Mars","Jupiter","Venus"],c:1,d:"easy"},
+{q:"Planet terpanas?",a:["Venus","Mars","Neptunus"],c:0,d:"easy"},
+{q:"Galaksi kita?",a:["Andromeda","Bimasakti","Orion"],c:1,d:"easy"},
+{q:"Ledakan bintang?",a:["Supernova","Aurora","Gerhana"],c:0,d:"medium"},
+{q:"Objek gravitasi ekstrem?",a:["Komet","Black Hole","Asteroid"],c:1,d:"medium"},
+{q:"Planet es raksasa?",a:["Uranus","Mars","Bumi"],c:0,d:"medium"},
+{q:"Bintang neutron terbentuk dari?",a:["Supernova","Planet","Komet"],c:0,d:"hard"},
+{q:"Kecepatan cahaya sekitar?",a:["300.000 km/s","150.000 km/s","1 juta km/s"],c:0,d:"hard"},
+{q:"Nama teleskop luar angkasa terkenal?",a:["Hubble","Apollo","Voyager"],c:0,d:"hard"},
+{q:"Lapisan matahari paling luar?",a:["Korona","Inti","Fotosfer"],c:0,d:"hard"},
+{q:"Satelit alami bumi?",a:["Bulan","Mars","Venus"],c:0,d:"easy"},
+{q:"Gerhana terjadi karena?",a:["Bayangan","Ledakan","Tabrakan"],c:0,d:"easy"},
+{q:"Planet merah?",a:["Mars","Venus","Jupiter"],c:0,d:"easy"},
+{q:"Benda berekor?",a:["Komet","Nebula","Planet"],c:0,d:"medium"},
+{q:"Alat lihat bintang?",a:["Teleskop","Mikroskop","Periskop"],c:0,d:"easy"}
+];
+
+let questions=[];
+let current=0;
+let score=0;
+let name="";
+let leaderboard=JSON.parse(localStorage.getItem("leaderboard"))||[];
+
+function shuffle(array){
+  return array.sort(()=>Math.random()-0.5);
+}
+
+function startQuiz(){
+  name=document.getElementById("username").value||"Anonim";
+  let diff=document.getElementById("difficulty").value;
+  questions=shuffle(allQuestions.filter(q=>q.d===diff));
+  current=0;score=0;
+  document.getElementById("start").style.display="none";
+  document.getElementById("quiz").style.display="block";
+  showQuestion();
+}
+
+function showQuestion(){
+  if(current>=questions.length){endQuiz();return;}
+  let q=questions[current];
+  let quizDiv=document.getElementById("quiz");
+  quizDiv.innerHTML="<p>"+(current+1)+". "+q.q+"</p>";
+  shuffle(q.a).forEach(choice=>{
+    let btn=document.createElement("button");
+    btn.innerText=choice;
+    btn.onclick=()=>{
+      if(choice===q.a[q.c]){
+        score++;
+        document.getElementById("correctSound").play();
+      } else {
+        score--;
+        document.getElementById("wrongSound").play();
+      }
+      current++;
+      document.getElementById("score").innerText="Skor: "+score;
+      showQuestion();
+    };
+    quizDiv.appendChild(btn);
+  });
+}
+
+function endQuiz(){
+  leaderboard.push({name,score});
+  leaderboard.sort((a,b)=>b.score-a.score);
+  localStorage.setItem("leaderboard",JSON.stringify(leaderboard));
+  showLeaderboard();
+  document.getElementById("quiz").innerHTML="<h3>Quiz Selesai!</h3>";
+}
+
+function showLeaderboard(){
+  let html="<h4>🏆 Leaderboard</h4>";
+  leaderboard.slice(0,5).forEach((p,i)=>{
+    html+="<p>"+(i+1)+". "+p.name+" - "+p.score+"</p>";
+  });
+  document.getElementById("leaderboard").innerHTML=html;
+}
+
+if(window.location.search.includes("admin=true")){
+  document.body.innerHTML+="<button onclick='localStorage.clear();location.reload();' style='position:fixed;bottom:10px;right:10px;'>Reset LB</button>";
+}
+
+showLeaderboard();
+</script>
+
+</body>
+  </html>
