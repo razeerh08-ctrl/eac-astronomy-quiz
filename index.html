@@ -1,85 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>EAC Astronomy GOD MODE</title>
+<title>EAC Astronomy Quiz – Ultra Cinematic</title>
 <style>
 body{
   margin:0;
   font-family:sans-serif;
-  background:linear-gradient(135deg,#000428,#004e92);
-  color:white;
   overflow:hidden;
+  background: radial-gradient(circle at top, #0b0c1a, #0a0f2f, #04050f);
+  color:white;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
 }
+
+/* Space Animasi */
 .stars{
   position:fixed;
   width:100%;
   height:100%;
-  background:transparent;
-  box-shadow:
-    50px 80px white, 200px 150px white, 400px 50px white,
-    600px 200px white, 800px 120px white, 1000px 300px white,
-    300px 400px white, 700px 500px white, 900px 450px white;
-  animation: move 20s linear infinite;
+  z-index:0;
 }
-@keyframes move{
-  from{transform:translateY(0);}
-  to{transform:translateY(-1000px);}
+
+.star{
+  position:absolute;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+  animation-name: moveStar;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
+
+@keyframes moveStar{
+  from{transform: translateY(0);}
+  to{transform: translateY(-1200px);}
+}
+
+@keyframes twinkle{
+  0%,100%{opacity:0.5;}
+  50%{opacity:1;}
+}
+
+/* Card Dashboard */
 .card{
   position:relative;
-  background:rgba(255,255,255,0.1);
-  padding:25px;
-  border-radius:15px;
-  backdrop-filter:blur(10px);
+  background: rgba(255,255,255,0.1);
+  padding:40px;
+  border-radius:25px;
+  backdrop-filter: blur(18px);
   width:90%;
-  max-width:400px;
+  max-width:450px;
   text-align:center;
   z-index:1;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
 }
-button{
-  margin:5px;
-  padding:8px 12px;
+
+input, select{
+  width:80%;
+  padding:16px;
+  margin:12px 0;
+  border-radius:12px;
   border:none;
-  border-radius:8px;
-  cursor:pointer;
+  font-size:18px;
 }
-button:hover{opacity:0.8;}
-#leaderboard{margin-top:10px;font-size:14px;}
+
+button{
+  width:60%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  background:#00bfff;
+  font-size:18px;
+  font-weight:bold;
+  color:white;
+  transition:0.3s;
+  box-shadow:0 0 12px #00bfff;
+}
+
+button:hover{
+  background:#009acd;
+  box-shadow:0 0 25px #00ffff,0 0 35px #00bfff;
+}
+
+#quiz button{
+  width:auto;
+  margin:5px;
+}
+
+#leaderboard{
+  margin-top:15px;
+  font-size:14px;
+}
 </style>
 </head>
-
 <body>
 
-<div class="stars"></div>
+<div class="stars" id="stars"></div>
 
 <div class="card">
-<h2>🌌 EAC Astronomy GOD MODE</h2>
+<h2>🌌 EAC Astronomy Quiz</h2>
 
 <div id="start">
-<input id="username" placeholder="Masukkan Nama"><br><br>
+<input id="username" placeholder="Masukkan Nama"><br>
 <select id="difficulty">
-  <option value="easy">Easy</option>
-  <option value="medium">Medium</option>
-  <option value="hard">Hard</option>
-</select><br><br>
+  <option value="easy">Mudah</option>
+  <option value="medium">Sedang</option>
+  <option value="hard">Sulit</option>
+</select><br>
 <button onclick="startQuiz()">Mulai</button>
 </div>
 
 <div id="quiz" style="display:none;"></div>
 <h3 id="score"></h3>
 <div id="leaderboard"></div>
-</div>
 
 <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
 <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+</div>
 
 <script>
-let allQuestions = [
+// === Animasi Space Bintang ===
+const starsContainer = document.getElementById("stars");
+for(let i=0;i<150;i++){
+  const star = document.createElement("div");
+  star.classList.add("star");
+  const size=Math.random()*3+1;
+  star.style.width=size+"px";
+  star.style.height=size+"px";
+  star.style.left=Math.random()*100+"%";
+  star.style.top=Math.random()*100+"%";
+  star.style.opacity=Math.random()*0.8+0.2;
+  star.style.animationDuration=(Math.random()*40+20)+"s";
+  star.style.animationName=Math.random()>0.7?"twinkle":"moveStar";
+  star.style.animationDuration=Math.random()>0.7?(Math.random()*2+1)+"s":star.style.animationDuration;
+  starsContainer.appendChild(star);
+}
+
+// === Quiz ===
+let allQuestions=[
 {q:"Planet terbesar?",a:["Mars","Jupiter","Venus"],c:1,d:"easy"},
 {q:"Planet terpanas?",a:["Venus","Mars","Neptunus"],c:0,d:"easy"},
 {q:"Galaksi kita?",a:["Andromeda","Bimasakti","Orion"],c:1,d:"easy"},
@@ -88,7 +150,7 @@ let allQuestions = [
 {q:"Planet es raksasa?",a:["Uranus","Mars","Bumi"],c:0,d:"medium"},
 {q:"Bintang neutron terbentuk dari?",a:["Supernova","Planet","Komet"],c:0,d:"hard"},
 {q:"Kecepatan cahaya sekitar?",a:["300.000 km/s","150.000 km/s","1 juta km/s"],c:0,d:"hard"},
-{q:"Nama teleskop luar angkasa terkenal?",a:["Hubble","Apollo","Voyager"],c:0,d:"hard"},
+{q:"Nama teleskop terkenal?",a:["Hubble","Apollo","Voyager"],c:0,d:"hard"},
 {q:"Lapisan matahari paling luar?",a:["Korona","Inti","Fotosfer"],c:0,d:"hard"},
 {q:"Satelit alami bumi?",a:["Bulan","Mars","Venus"],c:0,d:"easy"},
 {q:"Gerhana terjadi karena?",a:["Bayangan","Ledakan","Tabrakan"],c:0,d:"easy"},
@@ -97,15 +159,10 @@ let allQuestions = [
 {q:"Alat lihat bintang?",a:["Teleskop","Mikroskop","Periskop"],c:0,d:"easy"}
 ];
 
-let questions=[];
-let current=0;
-let score=0;
-let name="";
+let questions=[],current=0,score=0,name="";
 let leaderboard=JSON.parse(localStorage.getItem("leaderboard"))||[];
 
-function shuffle(array){
-  return array.sort(()=>Math.random()-0.5);
-}
+function shuffle(array){return array.sort(()=>Math.random()-0.5);}
 
 function startQuiz(){
   name=document.getElementById("username").value||"Anonim";
@@ -129,7 +186,7 @@ function showQuestion(){
       if(choice===q.a[q.c]){
         score++;
         document.getElementById("correctSound").play();
-      } else {
+      }else{
         score--;
         document.getElementById("wrongSound").play();
       }
@@ -163,6 +220,5 @@ if(window.location.search.includes("admin=true")){
 
 showLeaderboard();
 </script>
-
 </body>
   </html>
