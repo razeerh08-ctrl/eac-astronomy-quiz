@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>EAC Astronomy Quiz – Ultra Cinematic</title>
+<title>EAC Astronomy Quiz – Ultra Cinematic Space</title>
 <style>
 body{
   margin:0;
@@ -14,6 +14,7 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
+  transition: background 20s linear infinite;
 }
 
 /* Space Animasi */
@@ -29,9 +30,6 @@ body{
   background:white;
   border-radius:50%;
   opacity:0.8;
-  animation-name: moveStar;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
 }
 
 @keyframes moveStar{
@@ -47,43 +45,45 @@ body{
 /* Card Dashboard */
 .card{
   position:relative;
-  background: rgba(255,255,255,0.1);
-  padding:40px;
-  border-radius:25px;
+  background: rgba(255,255,255,0.12);
+  padding:50px 30px;
+  border-radius:30px;
   backdrop-filter: blur(18px);
-  width:90%;
-  max-width:450px;
+  width:95%;
+  max-width:500px;
   text-align:center;
   z-index:1;
-  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
 }
 
+/* Input & Dropdown */
 input, select{
-  width:80%;
-  padding:16px;
+  width:90%;
+  padding:18px;
   margin:12px 0;
-  border-radius:12px;
+  border-radius:14px;
   border:none;
-  font-size:18px;
+  font-size:20px;
 }
 
+/* Tombol Glow */
 button{
-  width:60%;
-  padding:16px;
+  width:70%;
+  padding:18px;
   border:none;
-  border-radius:14px;
+  border-radius:16px;
   cursor:pointer;
   background:#00bfff;
-  font-size:18px;
+  font-size:20px;
   font-weight:bold;
   color:white;
   transition:0.3s;
-  box-shadow:0 0 12px #00bfff;
+  box-shadow:0 0 15px #00bfff;
 }
 
 button:hover{
   background:#009acd;
-  box-shadow:0 0 25px #00ffff,0 0 35px #00bfff;
+  box-shadow:0 0 30px #00ffff,0 0 40px #00bfff;
 }
 
 #quiz button{
@@ -120,13 +120,14 @@ button:hover{
 
 <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
 <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+<audio id="ambientSound" src="https://www.soundjay.com/nature/sounds/space-ambient-1.mp3" loop autoplay></audio>
 </div>
 
 <script>
-// === Animasi Space Bintang ===
-const starsContainer = document.getElementById("stars");
-for(let i=0;i<150;i++){
-  const star = document.createElement("div");
+// === Animasi Bintang Cinematic ===
+const starsContainer=document.getElementById("stars");
+for(let i=0;i<180;i++){
+  const star=document.createElement("div");
   star.classList.add("star");
   const size=Math.random()*3+1;
   star.style.width=size+"px";
@@ -134,9 +135,9 @@ for(let i=0;i<150;i++){
   star.style.left=Math.random()*100+"%";
   star.style.top=Math.random()*100+"%";
   star.style.opacity=Math.random()*0.8+0.2;
-  star.style.animationDuration=(Math.random()*40+20)+"s";
   star.style.animationName=Math.random()>0.7?"twinkle":"moveStar";
-  star.style.animationDuration=Math.random()>0.7?(Math.random()*2+1)+"s":star.style.animationDuration;
+  star.style.animationDuration=Math.random()>0.7?(Math.random()*2+1)+"s":(Math.random()*40+20)+"s";
+  star.style.transform=`scale(${Math.random()})`;
   starsContainer.appendChild(star);
 }
 
@@ -221,4 +222,4 @@ if(window.location.search.includes("admin=true")){
 showLeaderboard();
 </script>
 </body>
-  </html>
+</html>
